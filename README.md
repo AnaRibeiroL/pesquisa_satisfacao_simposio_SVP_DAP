@@ -7,7 +7,7 @@ Aplicação web oficial de pesquisa de satisfação institucional e consolidaç�
 ## 🌐 Link Público da Aplicação em Produção
 
 Acesse e responda à pesquisa diretamente pelo link público oficial:  
-👉 **[https://ais-pre-aybblf6mkczxvy3jqcducr-177389806822.us-west1.run.app](https://ais-pre-aybblf6mkczxvy3jqcducr-177389806822.us-west1.run.app)**
+👉 **https://anaribeirol.github.io/pesquisa_satisfacao_simposio_SVP_DAP/**
 
 ---
 
@@ -71,8 +71,7 @@ Acesse e responda à pesquisa diretamente pelo link público oficial:
 ## 🛠️ Tecnologias Utilizadas
 
 - **Frontend:** React 19, TypeScript, Tailwind CSS v4, Lucide Icons
-- **Backend & API:** Node.js, Express, Vite Middleware
-- **Persistência:** Sincronização híbrida (Local Storage + API Server com persistência JSON)
+- **Persistência:** Local Storage + planilha central no Google Sheets (ver `planilha/LEIA-ME.md`)
 - **Identidade Visual:** Tipografia *Cinzel* e *Plus Jakarta Sans*, cores oficiais do Exército Brasileiro
 
 ---
@@ -81,10 +80,10 @@ Acesse e responda à pesquisa diretamente pelo link público oficial:
 
 ```bash
 # 1. Clonar o repositório
-git clone https://github.com/SEU_USUARIO/Pesquisa-de-Satisfacao-Simposio-SVP-DAP-2026.git
+git clone https://github.com/AnaRibeiroL/pesquisa_satisfacao_simposio_SVP_DAP.git
 
 # 2. Entrar na pasta
-cd Pesquisa-de-Satisfacao-Simposio-SVP-DAP-2026
+cd pesquisa_satisfacao_simposio_SVP_DAP
 
 # 3. Instalar as dependências
 npm install
@@ -94,6 +93,12 @@ npm run dev
 ```
 
 Acesse em: `http://localhost:3000`
+
+---
+
+## 🚀 Publicação (GitHub Pages)
+
+Em **Settings > Pages**, escolha **Source: GitHub Actions**. A cada push na `main` o workflow compila e publica o site.
 
 ---
 

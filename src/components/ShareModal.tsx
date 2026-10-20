@@ -5,11 +5,10 @@ interface ShareModalProps {
   onClose: () => void;
 }
 
-const GITHUB_PAGES_URL = 'https://anaribeirol.github.io/Pesquisa-de-Satisfacao-Simposio-SVP-DAP-2026/';
-const CLOUD_RUN_URL = 'https://ais-pre-aybblf6mkczxvy3jqcducr-177389806822.us-west1.run.app';
+const GITHUB_PAGES_URL = 'https://anaribeirol.github.io/pesquisa_satisfacao_simposio_SVP_DAP/';
 
 export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
-  const [selectedUrlType, setSelectedUrlType] = useState<'github' | 'cloud' | 'current' | 'custom'>('github');
+  const [selectedUrlType, setSelectedUrlType] = useState<'github' | 'current' | 'custom'>('github');
   const [customUrl, setCustomUrl] = useState<string>('');
   const [activeUrl, setActiveUrl] = useState<string>(GITHUB_PAGES_URL);
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
@@ -23,8 +22,6 @@ export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
     let target = GITHUB_PAGES_URL;
     if (selectedUrlType === 'github') {
       target = GITHUB_PAGES_URL;
-    } else if (selectedUrlType === 'cloud') {
-      target = CLOUD_RUN_URL;
     } else if (selectedUrlType === 'current' && typeof window !== 'undefined') {
       target = window.location.href;
     } else if (selectedUrlType === 'custom') {
@@ -236,16 +233,16 @@ export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
 
                 <button
                   type="button"
-                  onClick={() => setSelectedUrlType('cloud')}
+                  onClick={() => setSelectedUrlType('current')}
                   className={`p-2.5 rounded-xl border text-xs text-left transition-all cursor-pointer ${
-                    selectedUrlType === 'cloud'
+                    selectedUrlType === 'current'
                       ? 'bg-emerald-900 text-amber-300 border-emerald-900 font-semibold shadow-xs'
                       : 'bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200'
                   }`}
                 >
-                  <span className="block font-bold">Google Cloud Run</span>
+                  <span className="block font-bold">Endereço atual</span>
                   <span className="text-[10px] opacity-80 block truncate mt-0.5">
-                    Link de Produção Direto
+                    Página aberta agora
                   </span>
                 </button>
 

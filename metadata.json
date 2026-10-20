@@ -1,8 +1,0 @@
-{
-  "name": "Pesquisa de Satisfação - Simpósio SVP/DAP 2026",
-  "description": "Formulário oficial de avaliação e pesquisa de satisfação do Simpósio da Seção de Veteranos e Pensionistas da DAP 2026, com análise estatística e consolidação de resultados.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

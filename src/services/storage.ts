@@ -3,6 +3,10 @@ import { SurveyFormData, SurveyResponseRecord } from '../types';
 const STORAGE_KEY = 'dap_simposio_2026_responses';
 const DRAFT_KEY = 'dap_simposio_2026_draft';
 
+// URL do Web App (Google Apps Script) que grava as respostas na planilha central.
+// Defina em .env (VITE_SHEETS_URL) ou no workflow de deploy. Ver planilha/LEIA-ME.md
+const SHEETS_URL: string = (import.meta.env.VITE_SHEETS_URL as string | undefined) ?? '';
+
 // Amostras realistas de respostas para demonstrar o painel analítico
 export const SAMPLE_RESPONSES: SurveyResponseRecord[] = [
   {
@@ -211,8 +215,6 @@ export const StorageService = {
       const data = localStorage.getItem(STORAGE_KEY);
       if (!data) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_RESPONSES));
-        // Sincroniza em segundo plano com o servidor
-        this.syncWithServer(SAMPLE_RESPONSES);
         return SAMPLE_RESPONSES;
       }
       return JSON.parse(data);
@@ -222,35 +224,27 @@ export const StorageService = {
   },
 
   async fetchServerResponses(): Promise<SurveyResponseRecord[]> {
+    // Sem planilha configurada (ex.: GitHub Pages puro), usa só o armazenamento local
+    if (!SHEETS_URL) return this.getResponses();
     try {
-      const res = await fetch('/api/responses');
+      const res = await fetch(SHEETS_URL);
       if (res.ok) {
         const json = await res.json();
         if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(json.data));
-          return json.data;
-        } else if (json.success && Array.isArray(json.data) && json.data.length === 0) {
-          // Se o servidor estiver vazio, popula com as amostras
-          await this.syncWithServer(SAMPLE_RESPONSES);
-          return SAMPLE_RESPONSES;
+          const local = this.getResponses();
+          const merged = new Map<string, SurveyResponseRecord>();
+          [...json.data, ...local].forEach((r: SurveyResponseRecord) => merged.set(r.id, r));
+          const list = Array.from(merged.values()).sort(
+            (x, y) => new Date(y.submittedAt).getTime() - new Date(x.submittedAt).getTime()
+          );
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+          return list;
         }
       }
     } catch (err) {
-      console.warn('Servidor inacessível, usando armazenamento local:', err);
+      console.warn('Planilha inacessível, usando armazenamento local:', err);
     }
     return this.getResponses();
-  },
-
-  async syncWithServer(responses: SurveyResponseRecord[]): Promise<void> {
-    try {
-      await fetch('/api/responses/bulk-sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ responses }),
-      });
-    } catch (err) {
-      console.warn('Falha na sincronização com servidor:', err);
-    }
   },
 
   saveResponse(formData: SurveyFormData): SurveyResponseRecord {
@@ -271,12 +265,15 @@ export const StorageService = {
     }
     this.clearDraft();
 
-    // Salva no servidor para que todos os organizadores e participantes vejam
-    fetch('/api/responses', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newRecord),
-    }).catch((err) => console.warn('Não foi possível persistir no servidor:', err));
+    // Envia para a planilha central (Google Sheets) quando configurada
+    if (SHEETS_URL) {
+      fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(newRecord),
+      }).catch((err) => console.warn('Não foi possível enviar para a planilha:', err));
+    }
 
     return newRecord;
   },
@@ -304,21 +301,11 @@ export const StorageService = {
 
   resetToSamples(): SurveyResponseRecord[] {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_RESPONSES));
-    fetch('/api/responses/reset', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ samples: SAMPLE_RESPONSES }),
-    }).catch(() => {});
     return SAMPLE_RESPONSES;
   },
 
   clearAllResponses(): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
-    fetch('/api/responses/reset', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ samples: [] }),
-    }).catch(() => {});
   },
 
   exportToCsv(responses: SurveyResponseRecord[]): void {

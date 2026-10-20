@@ -14,7 +14,7 @@ export const BannerHero: React.FC<BannerHeroProps> = ({ onOpenShare }) => {
         {/* Banner Oficial Fornecido pelo Usuário */}
         <div className="relative rounded-2xl overflow-hidden border border-amber-400/30 shadow-2xl bg-[#091a11]">
           <img
-            src={`${import.meta.env.BASE_URL}assets/aistudio/logo_formulario_e8b05485.jpg`}
+            src={`${import.meta.env.BASE_URL}assets/logo_formulario_e8b05485.jpg`}
             alt="Simpósio de Veteranos e Pensionistas da Diretoria de Assistência ao Pessoal - 19 a 22 de Outubro de 2026"
             className="w-full h-auto object-cover max-h-[380px] sm:max-h-[440px]"
             referrerPolicy="no-referrer"
