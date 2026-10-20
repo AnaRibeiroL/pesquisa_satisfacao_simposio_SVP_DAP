@@ -1,5 +1,9 @@
 // Web App que grava as respostas da pesquisa na planilha (aba "Respostas").
 // Instruções em planilha/LEIA-ME.md
+// Se o script foi criado em script.google.com (projeto solto), cole aqui o ID da planilha
+// (trecho da URL entre /d/ e /edit). Se foi criado por Extensões > Apps Script, deixe vazio.
+const ID_PLANILHA = '';
+
 const CAMPOS = [
   ['protocolNumber', 'Protocolo'], ['submittedAt', 'Data/Hora'],
   ['nomeParticipante', 'Nome do Participante'], ['postoGraduacaoCargo', 'Posto/Graduação'], ['omRmOrigem', 'OM/Origem'],
@@ -29,7 +33,7 @@ const CAMPOS = [
 ];
 
 function aba_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ID_PLANILHA ? SpreadsheetApp.openById(ID_PLANILHA) : SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName('Respostas') || ss.insertSheet('Respostas');
   if (sh.getLastRow() === 0) {
     sh.appendRow(CAMPOS.map(c => c[1]));
