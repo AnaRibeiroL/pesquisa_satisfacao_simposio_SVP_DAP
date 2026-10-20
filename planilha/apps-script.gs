@@ -2,7 +2,7 @@
 // Instruções em planilha/LEIA-ME.md
 // Se o script foi criado em script.google.com (projeto solto), cole aqui o ID da planilha
 // (trecho da URL entre /d/ e /edit). Se foi criado por Extensões > Apps Script, deixe vazio.
-const ID_PLANILHA = '';
+const ID_PLANILHA = '175jomsSVHzicyil-Pdj_eNYRLpE0Vtvxsd8bL8QW5bw';
 
 const CAMPOS = [
   ['protocolNumber', 'Protocolo'], ['submittedAt', 'Data/Hora'],
