@@ -63,6 +63,10 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
           {/* Resumo Institucional */}
           <div className="text-xs sm:text-sm text-stone-600 space-y-2 border-t border-b border-stone-200 py-4">
             <div className="flex justify-between">
+              <span className="font-semibold text-stone-700">Nome:</span>
+              <span className="text-stone-900">{data.nomeParticipante || 'Não informado'}</span>
+            </div>
+            <div className="flex justify-between">
               <span className="font-semibold text-stone-700">Posto/Graduação:</span>
               <span className="text-stone-900">{data.postoGraduacaoCargo || 'Não informado (Anônimo)'}</span>
             </div>

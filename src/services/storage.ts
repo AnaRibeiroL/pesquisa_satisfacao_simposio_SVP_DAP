@@ -1,225 +1,19 @@
 import { SurveyFormData, SurveyResponseRecord } from '../types';
 
-const STORAGE_KEY = 'dap_simposio_2026_responses';
+const STORAGE_KEY = 'dap_simposio_2026_responses_v2';
 const DRAFT_KEY = 'dap_simposio_2026_draft';
 
 // URL do Web App (Google Apps Script) que grava as respostas na planilha central.
 // Defina em .env (VITE_SHEETS_URL) ou no workflow de deploy. Ver planilha/LEIA-ME.md
 const SHEETS_URL: string = (import.meta.env.VITE_SHEETS_URL as string | undefined) ?? '';
 
-// Amostras realistas de respostas para demonstrar o painel analítico
-export const SAMPLE_RESPONSES: SurveyResponseRecord[] = [
-  {
-    id: 'resp-1',
-    protocolNumber: 'DAP-2026-0814',
-    submittedAt: '2026-10-20T10:15:00.000Z',
-    postoGraduacaoCargo: 'Major',
-    omRmOrigem: 'Seção de Veteranos e Pensionistas da 3ª RM',
-    regiaoMilitar: '3ª RM',
-    tempoAtuacao: '3 a 5 anos',
-    primeiraParticipacao: 'nao',
-    periodoRealizacao: 5,
-    duracaoSimposio: 4,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 5,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 5,
-    confortoAudioVisual: 5,
-    temposInstrucoesPalestras: 4,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 5,
-    espacoDebatesDuvidas: 4,
-    clarezaNormasSistemas: 5,
-    qualidadeMaterialApoio: 5,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 5,
-    cumprimentoHorarios: 5,
-    comentariosGerais: 'Excelente iniciativa da DAP. A integração presencial com as outras Seções de Veteranos permitiu alinhar entendimentos sobre os novos decretos e unificar o atendimento.',
-    pontosFortes: 'Didática das palestras técnicas, clareza sobre o Sistema de Gestão de Pensionistas e o acolhimento impecável no Auditório CMP.',
-    sugestoesMelhoria: 'Disponibilizar mais tempo para oficinas práticas com estudos de casos complexos de pensão militar.',
-    sugestoesTemas2027: 'Processamento de habilitação de pensões com novos entendimentos dos Tribunais de Contas e Inteligência Artificial aplicada à triagem de processos.',
-    boasPraticasCompartilhar: 'Criamos na 3ª RM um canal direto de atendimento humanizado via agendamento digital para pensionistas idosos.',
-    sugestoesOficinas: 'Oficina prática de cálculo de reversão e partilha de pensão.',
-  },
-  {
-    id: 'resp-2',
-    protocolNumber: 'DAP-2026-0829',
-    submittedAt: '2026-10-20T11:40:00.000Z',
-    postoGraduacaoCargo: 'Capitão',
-    omRmOrigem: 'SVP / 11ª RM',
-    regiaoMilitar: '11ª RM',
-    tempoAtuacao: '1 a 3 anos',
-    primeiraParticipacao: 'sim',
-    periodoRealizacao: 4,
-    duracaoSimposio: 4,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 4,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 4,
-    confortoAudioVisual: 5,
-    temposInstrucoesPalestras: 4,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 5,
-    espacoDebatesDuvidas: 5,
-    clarezaNormasSistemas: 4,
-    qualidadeMaterialApoio: 4,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 5,
-    cumprimentoHorarios: 4,
-    comentariosGerais: 'Primeira vez participando. Superou as expectativas. Os contatos estabelecidos com os chefes de seção de todo o Brasil facilitará muito o dia a dia.',
-    pontosFortes: 'Abertura para esclarecimento de dúvidas e a presença dos diretores da DAP durante todo o evento.',
-    sugestoesMelhoria: 'Envio prévio dos slides ou e-book com antecedência de 48h para leitura preliminar.',
-    sugestoesTemas2027: 'Digitalização total do processo de recadastramento anual (prova de vida por biometria).',
-    boasPraticasCompartilhar: 'Piloto de atendimento volante às pensionistas domiciliadas ou em asilos na guarnição.',
-    sugestoesOficinas: 'Estudos práticos no ambiente de homologação dos sistemas DAP.',
-  },
-  {
-    id: 'resp-3',
-    protocolNumber: 'DAP-2026-0850',
-    submittedAt: '2026-10-20T14:20:00.000Z',
-    postoGraduacaoCargo: '1º Tenente',
-    omRmOrigem: 'Seção de Veteranos e Pensionistas da 1ª RM',
-    regiaoMilitar: '1ª RM',
-    tempoAtuacao: 'Mais de 5 anos',
-    primeiraParticipacao: 'nao',
-    periodoRealizacao: 5,
-    duracaoSimposio: 5,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 4,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 5,
-    confortoAudioVisual: 5,
-    temposInstrucoesPalestras: 5,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 5,
-    espacoDebatesDuvidas: 4,
-    clarezaNormasSistemas: 5,
-    qualidadeMaterialApoio: 5,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 5,
-    cumprimentoHorarios: 5,
-    comentariosGerais: 'Parabéns à equipe organizadora da DAP. O Simpósio 2026 demonstrou grande evolução em relação ao ano passado.',
-    pontosFortes: 'A qualidade dos palestrantes e o acolhimento caloroso prestado pela Diretoria aos participantes de todas as RMs.',
-    sugestoesMelhoria: 'Incluir mesas-redondas temáticas divididas por complexidade de atendimento.',
-    sugestoesTemas2027: 'Assistência social integrada e acolhimento psicológico de pensionistas em situação de vulnerabilidade.',
-    boasPraticasCompartilhar: 'Implementação de protocolo padrão de atendimento prioritário no Rio de Janeiro.',
-    sugestoesOficinas: 'Resolução colaborativa de pendências de documentação cartorária.',
-  },
-  {
-    id: 'resp-4',
-    protocolNumber: 'DAP-2026-0872',
-    submittedAt: '2026-10-21T09:10:00.000Z',
-    postoGraduacaoCargo: 'Subtenente',
-    omRmOrigem: 'SVP / 12ª RM',
-    regiaoMilitar: '12ª RM',
-    tempoAtuacao: '3 a 5 anos',
-    primeiraParticipacao: 'nao',
-    periodoRealizacao: 4,
-    duracaoSimposio: 4,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 5,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 5,
-    confortoAudioVisual: 4,
-    temposInstrucoesPalestras: 4,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 4,
-    espacoDebatesDuvidas: 5,
-    clarezaNormasSistemas: 4,
-    qualidadeMaterialApoio: 4,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 4,
-    cumprimentoHorarios: 4,
-    comentariosGerais: 'Fundamental para nós da Amazônia Ocidental estarmos alinhados com as diretrizes do órgão central.',
-    pontosFortes: 'Compreensão das peculiaridades regionais das guarnições especiais e de fronteira.',
-    sugestoesMelhoria: 'Mais tempo para troca de experiências entre Seções de RMs distantes.',
-    sugestoesTemas2027: 'Logística de atendimento em regiões remotas e suporte a pensionistas em pelotões de fronteira.',
-    boasPraticasCompartilhar: 'Uso de embarcações para recadastramento em comunidades ribeirinhas no Amazonas.',
-    sugestoesOficinas: 'Sistemas offline para áreas sem conectividade permanente.',
-  },
-  {
-    id: 'resp-5',
-    protocolNumber: 'DAP-2026-0895',
-    submittedAt: '2026-10-21T15:30:00.000Z',
-    postoGraduacaoCargo: 'Tenente-Coronel',
-    omRmOrigem: 'Chefe da SVP / 2ª RM',
-    regiaoMilitar: '2ª RM',
-    tempoAtuacao: 'Mais de 5 anos',
-    primeiraParticipacao: 'nao',
-    periodoRealizacao: 5,
-    duracaoSimposio: 5,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 5,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 5,
-    confortoAudioVisual: 5,
-    temposInstrucoesPalestras: 5,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 5,
-    espacoDebatesDuvidas: 5,
-    clarezaNormasSistemas: 5,
-    qualidadeMaterialApoio: 5,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 5,
-    cumprimentoHorarios: 5,
-    comentariosGerais: 'Simpósio de alto nível institucional. A liderança da DAP está de parabéns pela visão estratégica voltada ao bem-estar da família militar.',
-    pontosFortes: 'Sintonia entre as orientações jurídicas e o procedimento administrativo de balcão.',
-    sugestoesMelhoria: 'Manter a periodicidade anual e criar um grupo de trabalho permanente entre os simpósios.',
-    sugestoesTemas2027: 'Modernização da legislação de pensões e segurança jurídica nos atos concessórios.',
-    boasPraticasCompartilhar: 'Central de Atendimento Telefônico com gravação e protocolo em São Paulo.',
-    sugestoesOficinas: 'Auditoria preventiva de processos e conformidade com o TCU.',
-  },
-  {
-    id: 'resp-6',
-    protocolNumber: 'DAP-2026-0911',
-    submittedAt: '2026-10-21T16:45:00.000Z',
-    postoGraduacaoCargo: 'Servidor Civil (AsseJur / Técnico)',
-    omRmOrigem: 'Assessoria Jurídica SVP / 7ª RM',
-    regiaoMilitar: '7ª RM',
-    tempoAtuacao: '1 a 3 anos',
-    primeiraParticipacao: 'sim',
-    periodoRealizacao: 4,
-    duracaoSimposio: 4,
-    organizacaoInfraestrutura: 5,
-    deslocamentoHotelEvento: 4,
-    apoioRecepcaoCredenciamento: 5,
-    refeicoesCoffeeBreak: 4,
-    confortoAudioVisual: 5,
-    temposInstrucoesPalestras: 4,
-    relevanciaTemas: 5,
-    qualidadeTecnicaDidatica: 5,
-    espacoDebatesDuvidas: 4,
-    clarezaNormasSistemas: 4,
-    qualidadeMaterialApoio: 5,
-    avaliacaoGeralExpectativas: 5,
-    contribuicaoIntegracao: 5,
-    aplicabilidadePraticaOM: 5,
-    cumprimentoHorarios: 5,
-    comentariosGerais: 'Evento muito proveitoso para a assessoria jurídica das RMs. Esclareceu pontos de divergência na interpretação de pensão pós-reforma.',
-    pontosFortes: 'Debate aprofundado com os instrutores e padronização dos pareceres jurídicos.',
-    sugestoesMelhoria: 'Mais tempo para discussão de jurisprudência recente.',
-    sugestoesTemas2027: 'Uniformização da jurisprudência do STJ e STF sobre direitos previdenciários dos militares.',
-    boasPraticasCompartilhar: 'Manual simplificado de dúvidas frequentes entregue aos beneficiários na 7ª RM.',
-    sugestoesOficinas: 'Estudo de minutas e pareceres padronizados.',
-  }
-];
-
 export const StorageService = {
   getResponses(): SurveyResponseRecord[] {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
-      if (!data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_RESPONSES));
-        return SAMPLE_RESPONSES;
-      }
-      return JSON.parse(data);
+      return data ? JSON.parse(data) : [];
     } catch {
-      return SAMPLE_RESPONSES;
+      return [];
     }
   },
 
@@ -249,7 +43,7 @@ export const StorageService = {
 
   saveResponse(formData: SurveyFormData): SurveyResponseRecord {
     const responses = this.getResponses();
-    const sequence = (responses.length + 820).toString().padStart(4, '0');
+    const sequence = (responses.length + 1).toString().padStart(4, '0');
     const newRecord: SurveyResponseRecord = {
       ...formData,
       id: `resp-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
@@ -299,11 +93,6 @@ export const StorageService = {
     localStorage.removeItem(DRAFT_KEY);
   },
 
-  resetToSamples(): SurveyResponseRecord[] {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_RESPONSES));
-    return SAMPLE_RESPONSES;
-  },
-
   clearAllResponses(): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
   },
@@ -314,6 +103,7 @@ export const StorageService = {
     const headers = [
       'Protocolo',
       'Data/Hora',
+      'Nome do Participante',
       'Posto/Graduação',
       'OM/Origem',
       'Região Militar',
@@ -352,6 +142,7 @@ export const StorageService = {
     const rows = responses.map((r) => [
       escapeCsv(r.protocolNumber),
       escapeCsv(new Date(r.submittedAt).toLocaleString('pt-BR')),
+      escapeCsv(r.nomeParticipante),
       escapeCsv(r.postoGraduacaoCargo),
       escapeCsv(r.omRmOrigem),
       escapeCsv(r.regiaoMilitar),

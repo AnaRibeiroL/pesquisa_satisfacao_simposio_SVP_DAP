@@ -460,7 +460,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         })}
                       </td>
                       <td className="py-3 px-4 font-medium text-stone-800">
-                        {r.postoGraduacaoCargo || <span className="text-stone-400 italic">Anônimo</span>}
+                        {r.nomeParticipante && <span className="block font-semibold">{r.nomeParticipante}</span>}
+                        {r.postoGraduacaoCargo || (!r.nomeParticipante && <span className="text-stone-400 italic">Anônimo</span>)}
                       </td>
                       <td className="py-3 px-4 text-stone-700">
                         <span className="font-semibold text-emerald-900">{r.regiaoMilitar || '-'}</span>
@@ -506,7 +507,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   {selectedDetail.protocolNumber}
                 </span>
                 <h3 className="text-lg font-serif font-bold text-white mt-0.5">
-                  {selectedDetail.postoGraduacaoCargo || 'Participante'} · {selectedDetail.regiaoMilitar || 'OM de Origem'}
+                  {selectedDetail.nomeParticipante || selectedDetail.postoGraduacaoCargo || 'Participante'} · {selectedDetail.regiaoMilitar || 'OM de Origem'}
                 </h3>
               </div>
               <button

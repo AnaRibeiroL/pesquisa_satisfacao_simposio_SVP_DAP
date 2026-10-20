@@ -316,6 +316,21 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
           </div>
 
           <div className="space-y-6">
+            {/* Nome do Participante */}
+            <div>
+              <label className="block text-sm font-semibold text-stone-900 mb-1.5">
+                Nome do Participante
+                <span className="text-xs font-normal text-stone-500 ml-2">(Opcional)</span>
+              </label>
+              <input
+                type="text"
+                value={formData.nomeParticipante}
+                onChange={(e) => updateField('nomeParticipante', e.target.value)}
+                placeholder="Seu nome (pode deixar em branco)"
+                className="w-full px-4 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 text-stone-900 text-sm"
+              />
+            </div>
+
             {/* Posto / Graduação */}
             <div>
               <label className="block text-sm font-semibold text-stone-900 mb-1.5">

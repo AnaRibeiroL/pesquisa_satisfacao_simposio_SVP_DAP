@@ -1,5 +1,6 @@
 export interface SurveyFormData {
   // Seção 1: Identificação (Opcional)
+  nomeParticipante: string;
   postoGraduacaoCargo: string;
   omRmOrigem: string;
   regiaoMilitar: string;
@@ -92,6 +93,7 @@ export const POSTOS_GRADUACOES = [
 ];
 
 export const INITIAL_FORM_DATA: SurveyFormData = {
+  nomeParticipante: '',
   postoGraduacaoCargo: '',
   omRmOrigem: '',
   regiaoMilitar: '',

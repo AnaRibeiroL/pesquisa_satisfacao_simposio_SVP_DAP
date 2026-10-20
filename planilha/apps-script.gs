@@ -2,7 +2,7 @@
 // Instruções em planilha/LEIA-ME.md
 const CAMPOS = [
   ['protocolNumber', 'Protocolo'], ['submittedAt', 'Data/Hora'],
-  ['postoGraduacaoCargo', 'Posto/Graduação'], ['omRmOrigem', 'OM/Origem'],
+  ['nomeParticipante', 'Nome do Participante'], ['postoGraduacaoCargo', 'Posto/Graduação'], ['omRmOrigem', 'OM/Origem'],
   ['regiaoMilitar', 'Região Militar'], ['tempoAtuacao', 'Tempo de Atuação'],
   ['primeiraParticipacao', 'Primeira Participação'],
   ['periodoRealizacao', 'Período Realização (1-5)'], ['duracaoSimposio', 'Duração (1-5)'],
