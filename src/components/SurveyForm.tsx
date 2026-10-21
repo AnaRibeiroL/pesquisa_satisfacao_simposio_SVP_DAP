@@ -190,7 +190,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <form onSubmit={handleSubmit} className="w-full max-w-none mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Barra de Controles do Formulário e Progresso */}
       <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-5 shadow-sm mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -394,50 +394,28 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
               </div>
             </div>
 
-            {/* Pergunta Adicional 1: Região Militar Vinculada */}
+            {/* Região Militar de Enquadramento (mesmo formato das opções de órgão) */}
             <div>
               <label className="block text-sm font-semibold text-stone-900 mb-1.5">
                 Região Militar de Enquadramento
                 <span className="text-xs font-normal text-stone-500 ml-2">(Selecione sua RM para consolidação regional)</span>
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-                {REGIOES_MILITARES.slice(0, 12).map((rm) => {
+              <div className="flex flex-wrap gap-1.5">
+                {REGIOES_MILITARES.map((rm) => {
                   const isSelected = formData.regiaoMilitar === rm.id;
                   return (
                     <button
                       key={rm.id}
                       type="button"
                       onClick={() => updateField('regiaoMilitar', isSelected ? '' : rm.id)}
-                      className={`p-2 rounded-lg border text-center transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-emerald-900 text-amber-300 border-emerald-900 font-bold shadow-xs'
-                          : 'bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200'
-                      }`}
                       title={`${rm.name} - ${rm.states}`}
-                    >
-                      <div className="text-xs font-bold font-mono">{rm.id}</div>
-                      <div className="text-[10px] text-stone-500 truncate mt-0.5">
-                        {rm.hq.split(' - ')[0]}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="flex gap-2 mt-2">
-                {REGIOES_MILITARES.slice(12).map((rm) => {
-                  const isSelected = formData.regiaoMilitar === rm.id;
-                  return (
-                    <button
-                      key={rm.id}
-                      type="button"
-                      onClick={() => updateField('regiaoMilitar', isSelected ? '' : rm.id)}
-                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors cursor-pointer ${
+                      className={`text-xs px-2.5 py-1 rounded border transition-colors cursor-pointer ${
                         isSelected
                           ? 'bg-emerald-900 text-amber-300 border-emerald-900 font-bold'
-                          : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                          : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border-stone-200'
                       }`}
                     >
-                      {rm.name}
+                      {rm.id}
                     </button>
                   );
                 })}

@@ -119,7 +119,7 @@ export default function App() {
 
       {/* Rodapé Institucional */}
       <footer className="no-print mt-auto bg-stone-900 text-stone-400 border-t border-stone-800 py-8 px-4 text-center text-xs">
-        <div className="w-full max-w-screen-2xl mx-auto space-y-2">
+        <div className="w-full max-w-none mx-auto space-y-2">
           <p className="font-serif text-stone-300 font-semibold tracking-wide">
             Simpósio da Seção de Veteranos e Pensionistas — SVP / DAP 2026
           </p>

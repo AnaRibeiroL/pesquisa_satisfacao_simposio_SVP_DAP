@@ -10,7 +10,7 @@ export const BannerHero: React.FC<BannerHeroProps> = ({ onOpenShare }) => {
       {/* Decoração sutil de fundo militar */}
       <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:20px_20px]" />
       
-      <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-8">
+      <div className="w-full max-w-none mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-8">
         {/* Banner oficial e mapa das Regiões Militares (imagens inteiras, sem corte) */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
           <div className="lg:col-span-3 rounded-2xl overflow-hidden border border-amber-400/30 shadow-2xl bg-[#022b00] flex items-center">
