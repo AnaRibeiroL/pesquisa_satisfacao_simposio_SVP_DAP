@@ -4,6 +4,7 @@ import {
   INITIAL_FORM_DATA,
   REGIOES_MILITARES,
   POSTOS_GRADUACOES,
+  ORGAOS_ORIGEM,
 } from '../types';
 import { LikertScale } from './LikertScale';
 import { StorageService } from '../services/storage';
@@ -189,7 +190,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+    <form onSubmit={handleSubmit} className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Barra de Controles do Formulário e Progresso */}
       <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-5 shadow-sm mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -302,7 +303,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
 
       {/* SEÇÃO 1: Identificação (Opcional) */}
       {(viewMode === 'continuous' || activeStep === 1) && (
-        <section className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm mb-8">
+        <section className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 lg:p-8 shadow-sm mb-8">
           <div className="border-b border-stone-200 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold text-emerald-800 uppercase tracking-wider">
               Seção 01 de 05
@@ -362,19 +363,35 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
               </div>
             </div>
 
-            {/* OM / RM de Origem */}
+            {/* Órgão de Origem / Região Militar (OM) */}
             <div>
               <label className="block text-sm font-semibold text-stone-900 mb-1.5">
-                Organização Militar (OM) / RM de Origem
-                <span className="text-xs font-normal text-stone-500 ml-2">(Resposta curta / Opcional)</span>
+                Órgão de Origem / Região Militar (OM)
+                <span className="text-xs font-normal text-stone-500 ml-2">(Selecione uma opção ou digite / Opcional)</span>
               </label>
               <input
                 type="text"
                 value={formData.omRmOrigem}
                 onChange={(e) => updateField('omRmOrigem', e.target.value)}
-                placeholder="Ex: Seção de Veteranos e Pensionistas da 3ª RM, SVP/11ª RM, Cmdo 7ª RM..."
+                placeholder="Ex: SVP / 3ª RM, Cmdo 7ª RM, AGU..."
                 className="w-full px-4 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 text-stone-900 text-sm"
               />
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {ORGAOS_ORIGEM.map((o) => (
+                  <button
+                    key={o}
+                    type="button"
+                    onClick={() => updateField('omRmOrigem', formData.omRmOrigem === o ? '' : o)}
+                    className={`text-xs px-2.5 py-1 rounded border transition-colors cursor-pointer ${
+                      formData.omRmOrigem === o
+                        ? 'bg-emerald-900 text-amber-300 border-emerald-900 font-bold'
+                        : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border-stone-200'
+                    }`}
+                  >
+                    {o}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Pergunta Adicional 1: Região Militar Vinculada */}
@@ -428,15 +445,15 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
             </div>
 
             {/* Pergunta Adicional 2: Tempo de Atuação */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-stone-100">
-              <div>
+            <div className="space-y-6 pt-2 border-t border-stone-100">
+              <div className="pt-4">
                 <label className="block text-sm font-semibold text-stone-900 mb-1.5">
                   Tempo de atuação no atendimento a Veteranos e Pensionistas:
                 </label>
                 <select
                   value={formData.tempoAtuacao}
                   onChange={(e) => updateField('tempoAtuacao', e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-lg border border-stone-300 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
                 >
                   <option value="">Selecione uma opção...</option>
                   <option value="Menos de 1 ano">Menos de 1 ano</option>
@@ -446,33 +463,19 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
                 </select>
               </div>
 
-              {/* Pergunta Adicional 3: Primeira Participação */}
               <div>
                 <label className="block text-sm font-semibold text-stone-900 mb-1.5">
                   É a sua primeira participação no Simpósio DAP?
                 </label>
-                <div className="flex items-center gap-3 mt-1">
-                  <label className="flex items-center gap-2 text-sm text-stone-800 cursor-pointer p-2 rounded-lg border border-stone-200 hover:bg-stone-50 flex-1">
-                    <input
-                      type="radio"
-                      name="primeiraParticipacao"
-                      checked={formData.primeiraParticipacao === 'sim'}
-                      onChange={() => updateField('primeiraParticipacao', 'sim')}
-                      className="text-emerald-700 focus:ring-emerald-700"
-                    />
-                    <span>Sim, 1ª vez</span>
-                  </label>
-                  <label className="flex items-center gap-2 text-sm text-stone-800 cursor-pointer p-2 rounded-lg border border-stone-200 hover:bg-stone-50 flex-1">
-                    <input
-                      type="radio"
-                      name="primeiraParticipacao"
-                      checked={formData.primeiraParticipacao === 'nao'}
-                      onChange={() => updateField('primeiraParticipacao', 'nao')}
-                      className="text-emerald-700 focus:ring-emerald-700"
-                    />
-                    <span>Não, já participei antes</span>
-                  </label>
-                </div>
+                <select
+                  value={formData.primeiraParticipacao}
+                  onChange={(e) => updateField('primeiraParticipacao', e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                >
+                  <option value="">Selecione uma opção...</option>
+                  <option value="SIM">SIM</option>
+                  <option value="NÃO">NÃO</option>
+                </select>
               </div>
             </div>
           </div>
@@ -493,7 +496,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
 
       {/* SEÇÃO 2: Avaliação da Logística e Infraestrutura */}
       {(viewMode === 'continuous' || activeStep === 2) && (
-        <section className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm mb-8">
+        <section className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 lg:p-8 shadow-sm mb-8">
           <div className="border-b border-stone-200 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold text-emerald-800 uppercase tracking-wider">
               Seção 02 de 05
@@ -596,7 +599,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
 
       {/* SEÇÃO 3: Avaliação da Programação e Instruções */}
       {(viewMode === 'continuous' || activeStep === 3) && (
-        <section className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm mb-8">
+        <section className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 lg:p-8 shadow-sm mb-8">
           <div className="border-b border-stone-200 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold text-emerald-800 uppercase tracking-wider">
               Seção 03 de 05
@@ -691,7 +694,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
 
       {/* SEÇÃO 4: Opinião em Caráter Geral sobre o Simpósio */}
       {(viewMode === 'continuous' || activeStep === 4) && (
-        <section className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm mb-8">
+        <section className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 lg:p-8 shadow-sm mb-8">
           <div className="border-b border-stone-200 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold text-emerald-800 uppercase tracking-wider">
               Seção 04 de 05
@@ -785,7 +788,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
 
       {/* SEÇÃO 5: Considerações Finais e Contribuições */}
       {(viewMode === 'continuous' || activeStep === 5) && (
-        <section className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm mb-8">
+        <section className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 lg:p-8 shadow-sm mb-8">
           <div className="border-b border-stone-200 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold text-emerald-800 uppercase tracking-wider">
               Seção 05 de 05

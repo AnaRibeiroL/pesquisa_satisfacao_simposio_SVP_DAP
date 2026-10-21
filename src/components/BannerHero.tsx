@@ -10,18 +10,28 @@ export const BannerHero: React.FC<BannerHeroProps> = ({ onOpenShare }) => {
       {/* Decoração sutil de fundo militar */}
       <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:20px_20px]" />
       
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-8">
-        {/* Banner Oficial Fornecido pelo Usuário */}
-        <div className="relative rounded-2xl overflow-hidden border border-amber-400/30 shadow-2xl bg-[#091a11]">
-          <img
-            src={`${import.meta.env.BASE_URL}assets/logo_formulario_e8b05485.jpg`}
-            alt="Simpósio de Veteranos e Pensionistas da Diretoria de Assistência ao Pessoal - 19 a 22 de Outubro de 2026"
-            className="w-full h-auto object-cover max-h-[380px] sm:max-h-[440px]"
-            referrerPolicy="no-referrer"
-          />
-          {/* Brilho e moldura institucional */}
-          <div className="absolute inset-0 ring-1 ring-inset ring-amber-400/20 pointer-events-none rounded-2xl" />
+      <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-8">
+        {/* Banner oficial e mapa das Regiões Militares (imagens inteiras, sem corte) */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          <div className="lg:col-span-3 rounded-2xl overflow-hidden border border-amber-400/30 shadow-2xl bg-[#022b00] flex items-center">
+            <img
+              src={`${import.meta.env.BASE_URL}assets/banner_simposio.png`}
+              alt="Simpósio de Veteranos e Pensionistas - 19 a 22 de outubro de 2026"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+          <div className="lg:col-span-2 rounded-2xl overflow-hidden border border-amber-400/30 shadow-2xl bg-[#022b00] flex items-center justify-center">
+            <img
+              src={`${import.meta.env.BASE_URL}assets/mapa_regioes_militares.png`}
+              alt="Mapa do Brasil com os brasões das Regiões Militares"
+              className="w-full h-auto max-h-[420px] object-contain"
+            />
+          </div>
         </div>
+        <p className="mt-4 text-center font-serif text-amber-300 text-base sm:text-lg">
+          <strong>Diretoria de Assistência ao Pessoal</strong>
+          <span className="block text-amber-100/90 italic text-sm sm:text-base">A serviço da Família Militar</span>
+        </p>
 
         {/* Bloco de Apresentação e Instruções */}
         <div className="mt-8 text-center sm:text-left">

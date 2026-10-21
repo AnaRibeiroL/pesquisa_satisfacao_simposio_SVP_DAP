@@ -61,11 +61,17 @@ export const StorageService = {
 
     // Envia para a planilha central (Google Sheets) quando configurada
     if (SHEETS_URL) {
+      // Todas as respostas em texto vão para a planilha em MAIÚSCULAS
+      const paraPlanilha = Object.fromEntries(
+        Object.entries(newRecord).map(([k, v]) =>
+          [k, typeof v === 'string' && k !== 'id' && k !== 'submittedAt' ? v.toUpperCase() : v]
+        )
+      );
       fetch(SHEETS_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(newRecord),
+        body: JSON.stringify(paraPlanilha),
       }).catch((err) => console.warn('Não foi possível enviar para a planilha:', err));
     }
 
@@ -135,7 +141,7 @@ export const StorageService = {
     ];
 
     const escapeCsv = (str: unknown) => {
-      const s = String(str ?? '').replace(/"/g, '""');
+      const s = String(str ?? '').toUpperCase().replace(/"/g, '""');
       return `"${s}"`;
     };
 

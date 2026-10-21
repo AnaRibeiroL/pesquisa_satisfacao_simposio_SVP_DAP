@@ -15,11 +15,11 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-stone-900 text-stone-100 border-b border-stone-800 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+      <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-8">
         {/* Zone 1: Single text element wordmark */}
         <button
           onClick={() => onNavigate('form')}
-          className="text-base sm:text-lg font-serif font-bold tracking-wider text-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap shrink-0 text-left cursor-pointer"
+          className="text-sm sm:text-lg font-serif font-bold tracking-wide sm:tracking-wider text-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap text-left cursor-pointer"
         >
           SIMPÓSIO SVP / DAP 2026
         </button>
@@ -67,14 +67,14 @@ export const Header: React.FC<HeaderProps> = ({
           {currentView === 'form' ? (
             <button
               onClick={() => onNavigate('dashboard')}
-              className="px-4 py-2 text-xs font-semibold text-stone-900 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
+              className="px-3 sm:px-4 py-2 text-xs font-semibold text-stone-900 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
             >
               Ver Painel ({responseCount})
             </button>
           ) : (
             <button
               onClick={() => onNavigate('form')}
-              className="px-4 py-2 text-xs font-semibold text-stone-900 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
+              className="px-3 sm:px-4 py-2 text-xs font-semibold text-stone-900 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
             >
               Preencher Pesquisa
             </button>

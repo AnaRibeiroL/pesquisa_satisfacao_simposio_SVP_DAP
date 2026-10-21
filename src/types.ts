@@ -73,6 +73,22 @@ export const REGIOES_MILITARES: MilitaryRegion[] = [
   { id: 'Outra', name: 'Outra Organização Militar', states: 'Demais OMs', hq: 'Brasil' },
 ];
 
+export const ORGAOS_ORIGEM = [
+  'AGU',
+  'TCU',
+  'CIE',
+  'CPEx',
+  'CCIEx',
+  'CGCFEx',
+  'AMAM',
+  'AD/1',
+  'DAP / DGP',
+  'CONJUR-EB',
+  'MD',
+  'FAB',
+  'MARINHA',
+];
+
 export const POSTOS_GRADUACOES = [
   'General de Exército',
   'General de Divisão',

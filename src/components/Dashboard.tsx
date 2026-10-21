@@ -89,7 +89,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Header do Painel */}
       <div className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
