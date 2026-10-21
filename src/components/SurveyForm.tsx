@@ -343,13 +343,13 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ onSubmitSuccess }) => {
                   type="text"
                   value={formData.postoGraduacaoCargo}
                   onChange={(e) => updateField('postoGraduacaoCargo', e.target.value)}
-                  placeholder="Ex: Major, Tenente-Coronel, 1º Sargento, Servidor Civil..."
+                  placeholder="Ex: CEL, TC, MAJ, SERVIDOR CIVIL..."
                   className="w-full px-4 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 text-stone-900 text-sm"
                 />
                 {/* Sugestões rápidas */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   <span className="text-[11px] text-stone-500 py-0.5">Sugestões rápidas:</span>
-                  {['Ten Cel', 'Major', 'Capitão', '1º Tenente', 'Subtenente', '1º Sargento', 'Servidor Civil'].map((p) => (
+                  {POSTOS_GRADUACOES.map((p) => (
                     <button
                       key={p}
                       type="button"
